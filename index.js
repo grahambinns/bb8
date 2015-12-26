@@ -12,6 +12,14 @@ Cylon.robot({
     devices: {
         ollie: {
             driver: 'ollie'
+        },
+    },
+
+    display: function(err, data) {
+        if (err) {
+            console.log("Error: ", err);
+        } else {
+            console.log("Data: ", data);
         }
     },
 
@@ -20,18 +28,25 @@ Cylon.robot({
             console.log("wake");
 
             after(200, function() {
+                console.log("Colour -> 0x00FFFF");
                 my.ollie.setRGB(0x00FFFF);
-            });
 
-            after(500, function() {
-                my.ollie.setRGB(0xFF0000);
-                my.ollie.roll(60, 0, 1);
+                after(500, function() {
+                    console.log("Colour -> 0x0000FF");
+                    my.ollie.setRGB(0x0000FF);
 
-                after(10000, function() {
-                    my.ollie.roll(60, 180, 1);
+                    after(500, function() {
+                        console.log("Colour -> 0xFF0000");
+                        my.ollie.setRGB(0xFF0000);
+                    });
+                });
+
+                after(200, function() {
+                    console.log("Raw motor");
+                    //my.ollie.setRawMotorValues(2, 100, 2, 100);
 
                     after(1000, function() {
-                        my.ollie.stop();
+                        my.ollie.setStabilization(2);
                     });
                 });
             });

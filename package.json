@@ -9,7 +9,8 @@
     "dependencies": {
         "cylon": "*",
         "cylon-ble": "*",
-        "cylon-ollie": "*"
+        "cylon-ollie": "*",
+        "sleep": "*"
     },
     "repository": {
         "type": "git",
