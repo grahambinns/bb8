@@ -1,0 +1,24 @@
+{
+    "name": "bb8",
+    "version": "0.0.1",
+    "description": "Module for interacting with BB8 through Node",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "cylon": "*",
+        "cylon-ble": "*",
+        "cylon-ollie": "*"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/grahambinns/bb8.git"
+    },
+    "author": "Graham Binns",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/grahambinns/bb8/issues"
+    },
+    "homepage": "https://github.com/grahambinns/bb8#readme"
+}
