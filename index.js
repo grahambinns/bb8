@@ -3,6 +3,30 @@ var Cylon = require('cylon');
 var colour = 0x000000,
     colourChange = 0xFF;
 
+function drawASquare(bb8, heading, callback) {
+    if (heading === 360) {
+        // We're done.
+        console.log("Square finished.");
+        if (callback) {
+            console.log("Calling callback " + callback);
+            callback(bb8);
+        }
+        return;
+    } else if (!heading) {
+        heading = 0;
+    }
+
+    console.log("Rolling 2000ms at heading " + heading);
+    bb8.roll(128, heading, 1);
+    after(2000, function () {
+        console.log("Stopping");
+        bb8.stop(function() {
+            console.log("Recursing");
+            drawASquare(bb8, heading + 90);
+        });
+    });
+}
+
 Cylon.robot({
     connections: {
         bluetooth: {
@@ -36,30 +60,7 @@ Cylon.robot({
                 my.ollie.setRGB(colour);
             });
 
-            after(200, function() {
-                console.log("Rolling...");
-                my.ollie.roll(128, 270, 1, this.display);
-
-                after(2000, function() {
-                    console.log("Stopping...");
-                    my.ollie.stop();
-
-                    after(200, function() {
-                        my.ollie.roll(128, 0, 1, this.display);
-                        after(2000, my.ollie.stop);
-
-                        after(200, function() {
-                            my.ollie.roll(128, 90, 1, this.display);
-                            after(2000, my.ollie.stop);
-
-                            after(200, function() {
-                                my.ollie.roll(128, 360, 1, this.display);
-                                after(2000, my.ollie.stop);
-                            });
-                        });
-                    });
-                });
-            });
+            drawASquare(my.ollie);
         });
     }
 }).start();
