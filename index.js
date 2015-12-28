@@ -1,5 +1,8 @@
 var Cylon = require('cylon');
 
+var colour = 0x000000,
+    colourChange = 0xFF;
+
 Cylon.robot({
     connections: {
         bluetooth: {
@@ -27,26 +30,33 @@ Cylon.robot({
         my.ollie.wake(function(err, data) {
             console.log("wake");
 
+            every(5000, function() {
+                colour = colour + colourChange;
+                console.log("Changing colour to: " + colour);
+                my.ollie.setRGB(colour);
+            });
+
             after(200, function() {
-                console.log("Colour -> 0x00FFFF");
-                my.ollie.setRGB(0x00FFFF);
+                console.log("Rolling...");
+                my.ollie.roll(128, 270, 1, this.display);
 
-                after(500, function() {
-                    console.log("Colour -> 0x0000FF");
-                    my.ollie.setRGB(0x0000FF);
+                after(2000, function() {
+                    console.log("Stopping...");
+                    my.ollie.stop();
 
-                    after(500, function() {
-                        console.log("Colour -> 0xFF0000");
-                        my.ollie.setRGB(0xFF0000);
-                    });
-                });
+                    after(200, function() {
+                        my.ollie.roll(128, 0, 1, this.display);
+                        after(2000, my.ollie.stop);
 
-                after(200, function() {
-                    console.log("Raw motor");
-                    //my.ollie.setRawMotorValues(2, 100, 2, 100);
+                        after(200, function() {
+                            my.ollie.roll(128, 90, 1, this.display);
+                            after(2000, my.ollie.stop);
 
-                    after(1000, function() {
-                        my.ollie.setStabilization(2);
+                            after(200, function() {
+                                my.ollie.roll(128, 360, 1, this.display);
+                                after(2000, my.ollie.stop);
+                            });
+                        });
                     });
                 });
             });
